@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07110e">
+  <meta name="description" content="Root Probe — система мониторинга влажности почвы на двух глубинах.">
+  <title>Root Probe — Soil Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">R<span>·</span></span><span>ROOT<span class="brand-light"> PROBE</span><small>SOIL INTELLIGENCE SYSTEM</small></span></a>
+    <div class="top-right"><span class="live-dot" id="connection-dot"></span><span id="connection-label">Подключение...</span><span class="divider"></span><span class="device-id">DEVICE / RP-001</span></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div><div class="eyebrow"><span></span> SMART AGRICULTURE / FIELD MONITORING</div><h1>Понимай, что<br><em>происходит под землёй.</em></h1><p class="hero-copy">Root Probe измеряет состояние почвы на двух глубинах и помогает увидеть, как распределяется влага в корневой зоне.</p></div>
+      <div class="hero-art" aria-hidden="true"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="probe-line"></div><div class="probe-head"></div><div class="probe-node node-a"></div><div class="probe-node node-b"></div><div class="soil-label label-a">01 / TOP</div><div class="soil-label label-b">02 / DEEP</div><div class="soil-strata"></div></div>
+    </section>
+    <section class="status-banner" id="status-banner"><div class="status-symbol">✓</div><div><strong id="status-title">Ожидаем данные устройства</strong><p id="status-message">Подключаемся к базе данных...</p></div><span class="status-time" id="last-update">—</span></section>
+    <section class="section-heading"><div><div class="eyebrow">LIVE TELEMETRY</div><h2>Мониторинг среды</h2></div><div class="updated">ОБНОВЛЕНИЕ КАЖДЫЕ 5 СЕКУНД</div></section>
+    <section class="metrics-grid">
+      <article class="metric-card moisture-card"><div class="metric-top"><span class="metric-name">ВЛАЖНОСТЬ ПОЧВЫ</span><span class="depth-tag">01 / ВЕРХНИЙ УРОВЕНЬ</span></div><div class="metric-main"><strong id="top-moisture">—</strong><span>%</span><span class="metric-note">ориентировочно</span></div><div class="meter"><div id="top-meter"></div></div><div class="metric-bottom"><span>ADC RAW</span><b id="top-raw">—</b></div></article>
+      <article class="metric-card moisture-card"><div class="metric-top"><span class="metric-name">ВЛАЖНОСТЬ ПОЧВЫ</span><span class="depth-tag">02 / НИЖНИЙ УРОВЕНЬ</span></div><div class="metric-main"><strong id="bottom-moisture">—</strong><span>%</span><span class="metric-note">ориентировочно</span></div><div class="meter"><div id="bottom-meter"></div></div><div class="metric-bottom"><span>ADC RAW</span><b id="bottom-raw">—</b></div></article>
+      <article class="metric-card"><div class="metric-top"><span class="metric-name">ТЕМПЕРАТУРА</span><span class="icon-chip">°C</span></div><div class="metric-main"><strong id="temperature">—</strong><span>°C</span></div><p class="metric-description">Температура воздуха возле устройства</p><div class="metric-bottom"><span>SENSOR / DHT11</span><b>01</b></div></article>
+      <article class="metric-card"><div class="metric-top"><span class="metric-name">ВЛАЖНОСТЬ ВОЗДУХА</span><span class="icon-chip">RH</span></div><div class="metric-main"><strong id="air-humidity">—</strong><span>%</span></div><p class="metric-description">Относительная влажность воздуха</p><div class="metric-bottom"><span>SENSOR / DHT11</span><b>02</b></div></article>
+    </section>
+    <section class="section-heading chart-heading"><div><div class="eyebrow">DATA ANALYTICS</div><h2>История измерений</h2></div><span class="chart-caption">ПОСЛЕДНИЕ 30 ЗАПИСЕЙ</span></section>
+    <section class="chart-card"><div class="chart-legend"><span><i class="legend-top"></i>Верхний датчик</span><span><i class="legend-bottom"></i>Нижний датчик</span></div><div class="chart-wrap"><canvas id="history-chart"></canvas><div class="chart-empty" id="chart-empty">История появится после первых измерений</div></div></section>
+    <section class="section-heading"><div><div class="eyebrow">ABOUT THE DEVICE</div><h2>Как работает Root Probe</h2></div></section>
+    <section class="info-grid">
+      <article class="info-card"><span class="info-number">01</span><h3>Два уровня почвы</h3><p>Два аналоговых датчика измеряют влажность на разных глубинах. Это позволяет сравнивать состояние верхнего и нижнего слоя.</p></article>
+      <article class="info-card"><span class="info-number">02</span><h3>Контроль микроклимата</h3><p>DHT11 фиксирует температуру и относительную влажность воздуха рядом с устройством.</p></article>
+      <article class="info-card"><span class="info-number">03</span><h3>Передача данных</h3><p>ESP32-S3 собирает показания и отправляет их в Supabase. Панель автоматически запрашивает новые данные.</p></article>
+    </section>
+    <section class="technical"><div><div class="eyebrow">HARDWARE CONFIGURATION</div><h2>Аппаратная часть</h2><p>Текущая конфигурация прототипа Root Probe.</p></div><div class="hardware-list"><div><span>Микроконтроллер</span><b>ESP32-S3 N16R8</b></div><div><span>Датчик почвы / верхний</span><b>Analog · GPIO 4</b></div><div><span>Датчик почвы / нижний</span><b>Analog · GPIO 6</b></div><div><span>Температура и влажность</span><b>DHT11 · GPIO 5</b></div><div><span>Период отправки</span><b>5 секунд</b></div></div></section>
+    <section class="calibration-note"><span>i</span><p><b>Ориентировочная шкала влажности.</b> Сейчас используется временный диапазон ADC 4095 (сухо) → 1800 (влажно). Реальные проценты будут настроены после калибровки каждого датчика в вашей почве. Не используйте эти значения как точное агрономическое измерение.</p></section>
+    <footer><div class="brand footer-brand"><span class="brand-mark">R<span>·</span></span><span>ROOT<span class="brand-light"> PROBE</span><small>SOIL INTELLIGENCE SYSTEM</small></span></div><span>PROTOTYPE / 2026</span></footer>
+  </main>
+</body>
+</html>
